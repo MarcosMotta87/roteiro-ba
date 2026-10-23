@@ -126,5 +126,5 @@ const CuAdd=({onAdd,rAt})=>{const[op,sOp]=React.useState(!1),[md,sMd]=React.useS
 </script>
 
 
-<script>if('serviceWorker' in navigator){addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}</script>
+<script>if('serviceWorker' in navigator){const had=!!navigator.serviceWorker.controller;let rl=!1;navigator.serviceWorker.addEventListener('controllerchange',()=>{had&&!rl&&(rl=!0,location.reload())});addEventListener('load',()=>{navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{document.addEventListener('visibilitychange',()=>{document.visibilityState==='visible'&&r.update().catch(()=>{})})}).catch(()=>{})})}</script>
 </body></html>

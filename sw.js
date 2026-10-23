@@ -1,5 +1,5 @@
 // Roteiro BA: guarda o app no celular pra abrir sem internet
-const V = 'ba-app-v1';
+const V = 'ba-app-v2';
 const TILES = 'ba-tiles-v1';
 const MAX_TILES = 800;
 const CORE = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png', './icon-512.png'];
@@ -34,9 +34,9 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // página: tenta a versão nova, sem internet usa a guardada
+  // página: sempre pede a versão nova ao servidor (sem cache do navegador), sem internet usa a guardada
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(r => {
+    e.respondWith(fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }).then(r => {
       const copy = r.clone();
       caches.open(V).then(c => c.put('./index.html', copy));
       return r;
